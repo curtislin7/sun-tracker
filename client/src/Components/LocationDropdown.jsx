@@ -23,8 +23,6 @@ export default function GoogleMaps() {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
 
-  // TODO: read through this code and understand it
-
   const fetch = React.useMemo(
     () =>
       throttle((request, callback) => {
