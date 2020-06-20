@@ -1,14 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Switch } from 'react-router-dom'
+import { ThemeProvider } from '@material-ui/core/styles';
+import SunsetFlow from './Pages/SunsetFlow.jsx'
+import { theme } from './AppTheme';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-       This is where everything will live.
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+        <Switch>
+          <Route path="/" component={SunsetFlow}/>
+        </Switch>
+    </ThemeProvider>
+  )
 }
 
 export default App;
