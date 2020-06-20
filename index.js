@@ -1,5 +1,10 @@
 const express = require('express')
 const path = require('path')
+const dotenv = require('dotenv');
+
+// this is for local use
+dotenv.config();
+console.log('here is the dotenv variable', process.env.TEST)
 
 const app = express();
 
@@ -10,7 +15,7 @@ app.get('/test_this', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/clien/build/index.html'));
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 })
 
 const port = process.env.PORT || 5000;

@@ -9,6 +9,7 @@ import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 
 const autocompleteService = { current: null };
+const geocoder = { current: null };
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -17,11 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoogleMaps() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(null);
+// TODO: fix spacing in this file
+
+const Locater = ({latLong, setLatLong, value, setValue}) => {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
+  const classes = useStyles();
 
   const fetch = React.useMemo(
     () =>
@@ -33,8 +35,6 @@ export default function GoogleMaps() {
 
   React.useEffect(() => {
     let active = true;
-    console.log('here is the window', window)
-    console.log('window.google', window.google)
     if (!autocompleteService.current && window.google) {
       autocompleteService.current = new window.google.maps.places.AutocompleteService();
     }
@@ -68,6 +68,28 @@ export default function GoogleMaps() {
     };
   }, [value, inputValue, fetch]);
 
+  const getLatLong = (placeId) => {
+    if (!geocoder.current && window.google) {
+      geocoder.current = new window.google.maps.Geocoder();
+    }
+    if (placeId) {
+      geocoder.current.geocode({placeId}, (responses, status) => {
+        if(status === 'OK') {
+          const lat = responses[0].geometry.location.lat();
+          const long = responses[0].geometry.location.lng();
+          setLatLong({
+            lat,
+            long
+          });
+        } else {
+          setLatLong(undefined);
+        }
+      });
+    } else {
+      setLatLong(undefined);
+    }
+  };
+
   return (
     <Autocomplete
       id="google-autocomplete"
@@ -82,6 +104,7 @@ export default function GoogleMaps() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        getLatLong(newValue ? newValue.place_id : undefined);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -118,3 +141,5 @@ export default function GoogleMaps() {
     />
   );
 }
+
+export default Locater;
