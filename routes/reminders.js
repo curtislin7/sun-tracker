@@ -34,7 +34,16 @@ router.post('/create', function(req, res, next) {
                 res.status(400).send('There was an error creating the notification');
             }
         );
-  });
+});
+
+router.get('/test', function(req, res, next) {
+    messages.sendNotifications()
+        .then(
+            function(result){
+                res.send('it was sent')
+            }
+        )
+})
 
 // router.get('/create/:phoneNumber', function(req, res, next) {
 //     messages.create(req.params.phoneNumber).then(
