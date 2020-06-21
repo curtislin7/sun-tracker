@@ -3,6 +3,7 @@ const path = require('path')
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const reminders = require('./routes/reminders');
+const scheduler = require('./scheduler.js')
 
 // WHY store this in locals?
 // const moment = require('moment'); 
@@ -28,6 +29,8 @@ app.use(function(req, res, next) {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 })
+
+scheduler.start()
 
 const port = process.env.PORT || 5000;
 app.listen(port)

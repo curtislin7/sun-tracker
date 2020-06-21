@@ -1,10 +1,10 @@
 const express = require('express');
 const momentTimeZone = require('moment-timezone');
 const moment = require('moment');
-const Model = require('../models/model');
+const messages = require('../models/model');
 
 const router = new express.Router();
-const messages = new Model('messages');
+// const messages = new Model('messages');
 
 // post: /reminders/create
 // router.post('/create', function(req, res, next) {
@@ -37,7 +37,7 @@ router.post('/create', function(req, res, next) {
 });
 
 router.get('/test', function(req, res, next) {
-    messages.sendNotifications()
+    messages.sendReminders()
         .then(
             function(result){
                 res.send('it was sent')
