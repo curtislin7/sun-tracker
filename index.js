@@ -1,14 +1,29 @@
 const express = require('express')
 const path = require('path')
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+const reminders = require('./routes/reminders');
 
-// this is for local use
-dotenv.config();
-console.log('here is the dotenv variable', process.env.TEST)
+// WHY store this in locals?
+// const moment = require('moment'); 
+
+dotenv.config()
 
 const app = express();
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.locals.moment = require('moment');
+
+app.use('/reminders', reminders);
+app.use('/', reminders);
+
+app.use(function(req, res, next) {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
 app.get('/test_this', (req, res) => {
     res.json('sup bitch')
