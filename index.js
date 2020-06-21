@@ -25,10 +25,6 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-app.get('/test_this', (req, res) => {
-    res.json('sup bitch')
-});
-
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 })

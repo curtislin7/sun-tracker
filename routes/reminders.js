@@ -3,24 +3,53 @@ const momentTimeZone = require('moment-timezone');
 const moment = require('moment');
 const Model = require('../models/model');
 
-
 const router = new express.Router();
 const messages = new Model('messages');
 
-// GET: /reminders/create
-router.get('/create', function(req, res, next) {
-    console.log('hey there')
-    messages.select().then(
-        function(result){
-            res.send('hey')
-        }
-    ).catch(
-        function(result){
-            console.log('there was an error', result);
-            res.send('there was an eror');
-        }
-    );
-});
+// post: /reminders/create
+// router.post('/create', function(req, res, next) {
+//     messages.select().then(
+//         function(result){
+//             res.send(result);
+//         }
+//     ).catch(
+//         function(result){
+//             console.log('there was an error', result);
+//             res.send('there was an eror');
+//         }
+//     );
+// });
+
+router.post('/create', function(req, res, next) {
+    const phoneNumber = req.body.phoneNumber;
+    const reminderTime = req.body.reminderTime;
+    console.log('enter here')
+    messages.create(phoneNumber, reminderTime)
+        .then(
+            function(result) {
+                res.send(result);
+            }
+        ).catch(
+            function(result) {
+                res.status(400).send('There was an error creating the notification');
+            }
+        );
+  });
+
+// router.get('/create/:phoneNumber', function(req, res, next) {
+//     messages.create(req.params.phoneNumber).then(
+//         function(result){
+//             res.send(result);
+//         }
+//     ).catch(
+//         function(result){
+//             console.log('there was an error', result);
+//             res.send('there was an eror');
+//         }
+//     );
+// });
+
+
 // const client = new Client({
 //   connectionString: process.env.DATABASE_URL,
 //   ssl: {

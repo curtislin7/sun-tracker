@@ -1,29 +1,72 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import moment from 'moment';
+
 const LocationInfo = ({location, latLong}) => {
     const [sunTimes, setSunTimes] = React.useState({
         sunset: undefined,
         sunrise: undefined
     });
-
+    const [phoneNumber, setPhoneNumber] = React.useState('');
     const fetchSunInfo = () => {
-        const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today`
+        const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
         fetch(queryString)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'OK') {
+                    console.log(data)
                     setSunTimes({
-                        sunset:data.results.sunset,
-                        sunrise:data.results.sunrise
+                        sunset: data.results.sunset.slice(0,-6),
+                        sunrise: data.results.sunrise.slice(0,-6)
                     });
                 }
             });
     };
+    React.useEffect(() => {fetchSunInfo()}, []);
+    // React.useEffect(() => {
+    //     // console.log(sunTimes.sunset)
+    //     // const dateObj = new Date(sunTimes.sunset);
+    //     // console.log('date in js', dateObj)
+    //     if(sunTimes.sunset) {
+    //         // const formattedString = sunTimes.sunset.slice(0,-6);
+    //         const utcSunset = moment.utc(sunTimes.sunset);
+    //         const localSunset = moment(utcSunset).local().format('YYYY-MM-DD hh:mm:ss');
+    //         // 'MMMM Do YYYY, h:mm:ss a'
+    //         console.log('utcSunset time', utcSunset.format('YYYY-MM-DD hh:mm:ss'));
+    //         console.log('local', localSunset)
+    //     }
+        
+    // }, [sunTimes])
 
-    React.useEffect(() => {
-        fetchSunInfo();
-    }, [])
+    const handleChange = (event) => {
+        setPhoneNumber(event.target.value);
+    };
 
+    const createNotification = () => {
+        const data = {
+            phoneNumber: phoneNumber,
+            reminderTime: sunTimes.sunset,
+        };
+        fetch('/reminders/create', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            // mode: 'cors',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('We made it to the end of the chain with no errors')
+        });
+        
+    }
+
+    //TODO: fetch will need to be post request;
     return(
         <div>
              <Typography variant="h6" gutterBottom>
@@ -37,11 +80,26 @@ const LocationInfo = ({location, latLong}) => {
                 }
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun in ${location.description} is going to rise at ${sunTimes.sunset}`}
+                {`The sun in ${location.description} is going to rise at ${moment.utc(sunTimes.sunrise).local().format('YYYY-MM-DD hh:mm:ss')}`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun is in ${location.description} is going to set at ${sunTimes.sunrise}`}
+                {`The sun in ${location.description} is going to set at ${moment.utc(sunTimes.sunset).local().format('YYYY-MM-DD hh:mm:ss')}`}
             </Typography>
+            <div>
+                <TextField 
+                    label="PhoneNumber" 
+                    value={phoneNumber} 
+                    onChange={handleChange} 
+                    onKeyPress={(e) => {
+                        console.log(`Pressed keyCode ${e.key}`);
+                        if (e.key === 'Enter') {
+                            createNotification();
+                            e.preventDefault();
+                        };
+                    }}
+                />
+                <Button></Button>
+            </div>
         </div>
     );
 }
