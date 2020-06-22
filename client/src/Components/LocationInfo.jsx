@@ -62,15 +62,11 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunriseReminder = () => {
-        // const data = {
-        //     phoneNumber: phoneNumber,
-        //     reminderTime: sunrise,
-        // };
         const data = {
-            phoneNumber: '3032292859',
-            reminderTime: moment.utc().format(),
+            phoneNumber: phoneNumber,
+            reminderTime: sunrise,
         };
-        
+
         fetch('/reminders/create', {
             method: 'post',
             headers: {
