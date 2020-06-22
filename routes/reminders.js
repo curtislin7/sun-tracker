@@ -19,17 +19,17 @@ router.post('/create', function(req, res, next) {
 });
 
 // TODO: make this route useful for testing queries
-router.get('/test', function(req, res, next) {
-    messages.relevantPhoneNumbers()
-        .then(
-            function(result){
-                res.send(result);
-            }
-        ).catch(
-            function(result) {
-                res.send(result);
-            }
-        )
-});
+// router.get('/test', function(req, res, next) {
+//     messages.relevantPhoneNumbers()
+//         .then(
+//             function(result){
+//                 res.send(result);
+//             }
+//         ).catch(
+//             function(result) {
+//                 res.send(result);
+//             }
+//         )
+// });
 
 module.exports = router;
