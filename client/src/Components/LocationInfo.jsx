@@ -5,15 +5,34 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+    inputRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    input: {
+        width: '200px'
+    },
+    button: {
+      marginRight: theme.spacing(1),
+    },
+}));
+
 const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep}) => {
-    console.log(sunset);
     const [phoneNumber, setPhoneNumber] = React.useState('');
+    const classes = useStyles();
 
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
 
-    const createNotification = () => {
+    const setSunsetReminder = () => {
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunset,
@@ -30,13 +49,32 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
         .then(response => response.json())
         .then(data => {
             setActiveStep(2);
-            console.log('We made it to the end of the chain with no errors')
-        });  
+        }); 
     };
 
+    const setSunriseReminder = () => {
+        const data = {
+            phoneNumber: phoneNumber,
+            reminderTime: sunrise,
+        };
+        fetch('/reminders/create', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            // mode: 'cors',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            setActiveStep(2);
+        }); 
+    }
+
     return(
-        <div>
-             <Typography variant="h6" gutterBottom>
+        <div className={classes.root}>
+            <Typography variant="h6" gutterBottom>
                 {
                 `You chose ${location.description}`
                 }
@@ -50,20 +88,26 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
             <Typography variant="h6" gutterBottom>
                 {`The sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('YYYY-MM-DD hh:mm:ss')} PM.`}
             </Typography>
-            <div>
+            <div className={classes.inputRow}>
                 <TextField 
+                    className={classes.input}
                     label="PhoneNumber" 
                     value={phoneNumber} 
                     onChange={handleChange} 
                     onKeyPress={(e) => {
                         console.log(`Pressed keyCode ${e.key}`);
                         if (e.key === 'Enter') {
-                            createNotification();
+                            alert('Just click a button bro.')
                             e.preventDefault();
                         };
                     }}
                 />
-                <Button></Button>
+                <Button variant="contained" onClick={() => setSunriseReminder()}>
+                    Set sunrise reminder!
+                </Button>
+                <Button variant="contained" onClick={() => setSunsetReminder()}>
+                    Set sunset reminder!
+                </Button>
             </div>
         </div>
     );

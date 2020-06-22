@@ -37,11 +37,11 @@ const getSteps = () => {
 const getStepContent = (step) => {
   switch (step) {
     case 0:
-      return 'Enter location.';
+      return 'Enter your current location.';
     case 1:
-      return 'Enter phone number.';
+      return 'Enter your phone number.';
     case 2:
-      return 'When should I text you?';
+      return 'Finished!';
     default:
       return 'Unknown step';
   }

@@ -21,7 +21,6 @@ const SunsetFlow = () => {
     const classes = useStyles();
 
     React.useEffect(() => {
-        console.log('latLong is currently', latLong)
         if(!location) {
             setIsDisabled(true);
         } else {
@@ -70,9 +69,9 @@ const SunsetFlow = () => {
             )
         } else if (activeStep === 2) {
             return (
-                <div>
-                    this also hasn't been implemented yet :(
-                </div>
+                <Typography variant="h6" gutterBottom>
+                    You've set a reminder! We will text you when it's time.
+                </Typography>
             );
         }
     }
