@@ -24,9 +24,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep}) => {
+const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep, isDisabled, setIsDisabled}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const classes = useStyles();
+    React.useEffect(() => {
+        if(!phoneNumber) {
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [phoneNumber])
 
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
@@ -95,17 +102,16 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
                     value={phoneNumber} 
                     onChange={handleChange} 
                     onKeyPress={(e) => {
-                        console.log(`Pressed keyCode ${e.key}`);
                         if (e.key === 'Enter') {
-                            alert('Just click a button bro.')
+                            alert("If you've typed in your number, click one of the buttons.")
                             e.preventDefault();
                         };
                     }}
                 />
-                <Button variant="contained" onClick={() => setSunriseReminder()}>
+                <Button variant="contained" onClick={() => setSunriseReminder()} disabled={isDisabled}>
                     Set sunrise reminder!
                 </Button>
-                <Button variant="contained" onClick={() => setSunsetReminder()}>
+                <Button variant="contained" onClick={() => setSunsetReminder()} disabled={isDisabled}>
                     Set sunset reminder!
                 </Button>
             </div>

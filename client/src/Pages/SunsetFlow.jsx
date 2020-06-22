@@ -64,6 +64,8 @@ const SunsetFlow = () => {
                         latLong={latLong}
                         sunTimes={sunTimes}
                         setActiveStep={setActiveStep}
+                        setIsDisabled={setIsDisabled}
+                        isDisabled={isDisabled}
                     />
                 </div>
             )
@@ -73,14 +75,20 @@ const SunsetFlow = () => {
                     You've set a reminder! We will text you when it's time.
                 </Typography>
             );
-        }
+        } else {
+            return (
+                <Typography variant="h6" gutterBottom>
+                    🎉
+                </Typography>
+            )
+        };
     }
 
     return (
         <div className={classes.root}>
             <div styles={{height: '20px'}}/>
             <Typography variant="h2" component="h2" gutterBottom>
-                Sunset-llio
+                Sunset Tracker
             </Typography>
            <div className={classes.stepContentContainer}>
                {currentStep()}
