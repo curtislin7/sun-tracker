@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep, isDisabled, setIsDisabled}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const classes = useStyles();
@@ -40,9 +41,10 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunsetReminder = () => {
+        const sunsetReminder = moment.utc(sunset).subtract(5, 'minutes').format();
         const data = {
             phoneNumber: phoneNumber,
-            reminderTime: sunset,
+            reminderTime: sunsetReminder,
         };
 
         fetch('/reminders/create', {
@@ -61,9 +63,10 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunriseReminder = () => {
+        const sunriseReminder = moment.utc(sunrise).subtract(5, 'minutes').format();
         const data = {
             phoneNumber: phoneNumber,
-            reminderTime: sunrise,
+            reminderTime: sunriseReminder,
         };
 
         fetch('/reminders/create', {
