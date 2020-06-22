@@ -13,15 +13,37 @@ const SunsetFlow = () => {
     const [latLong, setLatLong] = React.useState(undefined);
     const [location, setLocation] = React.useState(null);
     const [isDisabled, setIsDisabled] = React.useState(true);
+    const [sunTimes, setSunTimes] = React.useState({
+        sunset: undefined,
+        sunrise: undefined
+    });
+
     const classes = useStyles();
+
     React.useEffect(() => {
+        console.log('latLong is currently', latLong)
         if(!location) {
             setIsDisabled(true);
         } else {
+            fetchSunInfo();
             setIsDisabled(false);
         }
-    }, [location]);
-    // only allow next step if they've chosen someplace
+    }, [latLong]);
+
+    const fetchSunInfo = () => {
+        const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
+        fetch(queryString)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'OK') {
+                    console.log(data)
+                    setSunTimes({
+                        sunset: data.results.sunset.slice(0,-6),
+                        sunrise: data.results.sunrise.slice(0,-6)
+                    });
+                }
+            });
+    };
 
     const currentStep = () => {
         if (activeStep === 0) {
@@ -41,6 +63,8 @@ const SunsetFlow = () => {
                     <LocationInfo 
                         location={location}
                         latLong={latLong}
+                        sunTimes={sunTimes}
+                        setActiveStep={setActiveStep}
                     />
                 </div>
             )

@@ -5,57 +5,57 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 
-const LocationInfo = ({location, latLong}) => {
-    const [sunTimes, setSunTimes] = React.useState({
-        sunset: undefined,
-        sunrise: undefined
-    });
+const LocationInfo = ({location, latLong, sunTimes : {sunset, sunrise}, setActiveStep}) => {
+    // const [sunTimes, setSunTimes] = React.useState({
+    //     sunset: undefined,
+    //     sunrise: undefined
+    // });
+    console.log(sunset);
     const [phoneNumber, setPhoneNumber] = React.useState('');
-    const fetchSunInfo = () => {
-        const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
-        fetch(queryString)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'OK') {
-                    console.log(data)
-                    setSunTimes({
-                        sunset: data.results.sunset.slice(0,-6),
-                        sunrise: data.results.sunrise.slice(0,-6)
-                    });
-                }
-            });
-    };
-    React.useEffect(() => {fetchSunInfo()}, []);
-    React.useEffect(() => {
-        // console.log(sunTimes.sunset)
-        // const dateObj = new Date(sunTimes.sunset);
-        // console.log('date in js', dateObj)
-        if(sunTimes.sunset) {
-            // const formattedString = sunTimes.sunset.slice(0,-6);
-            console.log('the current time for utc is', moment.utc().format());
-            // const utcSunset = moment.utc(sunTimes.sunset);
-            // const localSunset = moment(utcSunset).local().format('YYYY-MM-DD hh:mm:ss');
-            // // 'MMMM Do YYYY, h:mm:ss a'
-            // console.log('utcSunset time', utcSunset.format('YYYY-MM-DD hh:mm:ss'));
-            // console.log('local', localSunset)
-        }
+    // const fetchSunInfo = () => {
+    //     const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
+    //     fetch(queryString)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.status === 'OK') {
+    //                 console.log(data)
+    //                 setSunTimes({
+    //                     sunset: data.results.sunset.slice(0,-6),
+    //                     sunrise: data.results.sunrise.slice(0,-6)
+    //                 });
+    //             }
+    //         });
+    // };
+    // React.useEffect(() => {fetchSunInfo()}, []);
+    // React.useEffect(() => {
+    //     // console.log(sunTimes.sunset)
+    //     // const dateObj = new Date(sunTimes.sunset);
+    //     // console.log('date in js', dateObj)
+    //     if(sunset) {
+    //         // const formattedString = sunTimes.sunset.slice(0,-6);
+    //         console.log('the current time for utc is', moment.utc().format());
+    //         // const utcSunset = moment.utc(sunTimes.sunset);
+    //         // const localSunset = moment(utcSunset).local().format('YYYY-MM-DD hh:mm:ss');
+    //         // // 'MMMM Do YYYY, h:mm:ss a'
+    //         // console.log('utcSunset time', utcSunset.format('YYYY-MM-DD hh:mm:ss'));
+    //         // console.log('local', localSunset)
+    //     }
         
-    }, [sunTimes])
+    // }, [sunTimes])
 
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
 
     const createNotification = () => {
-        
-        // const data = {
-        //     phoneNumber: phoneNumber,
-        //     reminderTime: sunTimes.sunset,
-        // };
         const data = {
-            phoneNumber: '3032292859',
-            reminderTime: moment.utc().format(),
+            phoneNumber: phoneNumber,
+            reminderTime: sunset,
         };
+        // const data = {
+        //     phoneNumber: '3032292859',
+        //     reminderTime: moment.utc().format(),
+        // };
         fetch('/reminders/create', {
             method: 'post',
             headers: {
@@ -67,12 +67,11 @@ const LocationInfo = ({location, latLong}) => {
         })
         .then(response => response.json())
         .then(data => {
+            setActiveStep(2);
             console.log('We made it to the end of the chain with no errors')
-        });
-        
-    }
+        });  
+    };
 
-    //TODO: fetch will need to be post request;
     return(
         <div>
              <Typography variant="h6" gutterBottom>
@@ -81,15 +80,13 @@ const LocationInfo = ({location, latLong}) => {
                 }
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {
-                `Boulder is located at ${latLong.lat}, ${latLong.long}`
-                }
+                {`Boulder is located at ${latLong.lat}, ${latLong.long}`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun in ${location.description} is going to rise at ${moment.utc(sunTimes.sunrise).local().format('YYYY-MM-DD hh:mm:ss')}`}
+                {`The sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('YYYY-MM-DD hh:mm:ss')} AM.`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun in ${location.description} is going to set at ${moment.utc(sunTimes.sunset).local().format('YYYY-MM-DD hh:mm:ss')}`}
+                {`The sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('YYYY-MM-DD hh:mm:ss')} PM.`}
             </Typography>
             <div>
                 <TextField 
