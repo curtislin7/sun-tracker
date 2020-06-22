@@ -35,7 +35,6 @@ const SunsetFlow = () => {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'OK') {
-                    console.log(data)
                     setSunTimes({
                         sunset: data.results.sunset.slice(0,-6),
                         sunrise: data.results.sunrise.slice(0,-6)

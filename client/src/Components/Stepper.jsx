@@ -41,7 +41,7 @@ const getStepContent = (step) => {
     case 1:
       return 'Enter your phone number.';
     case 2:
-      return 'Finished!';
+      return '';
     default:
       return 'Unknown step';
   }

@@ -1,4 +1,5 @@
 const pool = require('./pool');
+const moment = require('moment');
 
 class Reminder {
     constructor() {
@@ -34,13 +35,16 @@ class Reminder {
     async sendReminders() {  
         const accountSid = process.env.TWILIO_ACCOUNT_SID;
         const authToken = process.env.TWILIO_AUTH_TOKEN;
+        const adminPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+        
+        const sunsetOrSunrise = moment.utc().format('a') == 'am' ? 'sunrise' : 'sunset';
 
         const client = require('twilio')(accountSid, authToken);
         const phoneNumbers = await this.relevantPhoneNumbers();
         phoneNumbers.forEach((number) => {
             client.messages.create({
-                body: 'The sunset is going to happen soon!',
-                from: '+19703005133',
+                body: `The ${sunsetOrSunrise} is going to happen soon!`,
+                from: `+1${adminPhoneNumber}`,
                 to: `+1${number}`
             }).then(message => {
                 console.log(`A message has been sent to ${number}!`);
