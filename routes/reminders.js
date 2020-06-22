@@ -1,6 +1,4 @@
 const express = require('express');
-const momentTimeZone = require('moment-timezone');
-const moment = require('moment');
 const messages = require('../models/model');
 
 const router = new express.Router();
@@ -26,11 +24,12 @@ router.get('/test', function(req, res, next) {
         .then(
             function(result){
                 res.send(result);
-                return 'blah'
             }
-        ).then(function(result) {
-            console.log('here is the json result', result)
-        })
+        ).catch(
+            function(result) {
+                res.send(result);
+            }
+        )
 });
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const pool = require('./pool');
-const moment = require('moment');
 
 class Reminder {
     constructor() {
