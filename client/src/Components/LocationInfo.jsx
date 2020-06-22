@@ -26,29 +26,35 @@ const LocationInfo = ({location, latLong}) => {
             });
     };
     React.useEffect(() => {fetchSunInfo()}, []);
-    // React.useEffect(() => {
-    //     // console.log(sunTimes.sunset)
-    //     // const dateObj = new Date(sunTimes.sunset);
-    //     // console.log('date in js', dateObj)
-    //     if(sunTimes.sunset) {
-    //         // const formattedString = sunTimes.sunset.slice(0,-6);
-    //         const utcSunset = moment.utc(sunTimes.sunset);
-    //         const localSunset = moment(utcSunset).local().format('YYYY-MM-DD hh:mm:ss');
-    //         // 'MMMM Do YYYY, h:mm:ss a'
-    //         console.log('utcSunset time', utcSunset.format('YYYY-MM-DD hh:mm:ss'));
-    //         console.log('local', localSunset)
-    //     }
+    React.useEffect(() => {
+        // console.log(sunTimes.sunset)
+        // const dateObj = new Date(sunTimes.sunset);
+        // console.log('date in js', dateObj)
+        if(sunTimes.sunset) {
+            // const formattedString = sunTimes.sunset.slice(0,-6);
+            console.log('the current time for utc is', moment.utc().format());
+            // const utcSunset = moment.utc(sunTimes.sunset);
+            // const localSunset = moment(utcSunset).local().format('YYYY-MM-DD hh:mm:ss');
+            // // 'MMMM Do YYYY, h:mm:ss a'
+            // console.log('utcSunset time', utcSunset.format('YYYY-MM-DD hh:mm:ss'));
+            // console.log('local', localSunset)
+        }
         
-    // }, [sunTimes])
+    }, [sunTimes])
 
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
 
     const createNotification = () => {
+        
+        // const data = {
+        //     phoneNumber: phoneNumber,
+        //     reminderTime: sunTimes.sunset,
+        // };
         const data = {
-            phoneNumber: phoneNumber,
-            reminderTime: sunTimes.sunset,
+            phoneNumber: '3032292859',
+            reminderTime: moment.utc().format(),
         };
         fetch('/reminders/create', {
             method: 'post',

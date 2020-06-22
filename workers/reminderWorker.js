@@ -3,10 +3,9 @@ const reminder = require('../models/model');
 const reminderWorker = function() {
     return {
         run: function() {
-            console.log('hey')
             reminder.sendReminders();
         }
     }
-}
+};
 
 module.exports = reminderWorker();
