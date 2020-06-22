@@ -62,11 +62,15 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunriseReminder = () => {
+        // const data = {
+        //     phoneNumber: phoneNumber,
+        //     reminderTime: sunrise,
+        // };
         const data = {
-            phoneNumber: phoneNumber,
-            reminderTime: sunrise,
+            phoneNumber: '3032292859',
+            reminderTime: moment.utc().format(),
         };
-
+        
         fetch('/reminders/create', {
             method: 'post',
             headers: {
@@ -80,7 +84,7 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
         .then(data => {
             setActiveStep(2);
         }); 
-        
+
     }
 
     return(
