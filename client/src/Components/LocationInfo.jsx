@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep, isDisabled, setIsDisabled}) => {
+const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep, isDisabled, setIsDisabled, setChosenOption}) => {
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const classes = useStyles();
     React.useEffect(() => {
@@ -41,8 +41,8 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunsetReminder = () => {
-        const sunsetReminder = moment.utc(sunset).add(5, 'hours').format();
-        // const sunsetReminder = moment.utc().add(1, 'hour').format();
+        setChosenOption('sunset');
+        const sunsetReminder = moment.utc(sunset).subtract(1, 'hours').format();
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunsetReminder,
@@ -64,8 +64,8 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunriseReminder = () => {
+        setChosenOption('sunrise');
         const sunriseReminder = moment.utc(sunrise).subtract(1, 'hours').format();
-        // const sunriseReminder = moment.utc().add(2, 'minutes').format();
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunriseReminder,
@@ -77,7 +77,6 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
-            // mode: 'cors',
             body: JSON.stringify(data)
         })
         .then(response => response.json())
@@ -86,6 +85,8 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
         }); 
 
     }
+
+    // TODO, make sure that the timezone is applied
 
     return(
         <div className={classes.root}>
@@ -98,10 +99,10 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
                 {`Boulder is located at ${lat}, ${long}`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('YYYY-MM-DD hh:mm:ss')} AM.`}
+            {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('hh:mm:ss A')}.`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`The sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('YYYY-MM-DD hh:mm:ss')} PM.`}
+                {`On ${moment.utc(sunset).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('hh:mm:ss A')}.`}
             </Typography>
             <div className={classes.inputRow}>
                 <TextField 

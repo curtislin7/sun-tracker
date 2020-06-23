@@ -5,6 +5,7 @@ import Stepper from '../Components/Stepper.jsx'
 import { makeStyles } from '@material-ui/core/styles';
 import SunsetFlowStyles from './SunsetFlowStyles';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 const useStyles = makeStyles(SunsetFlowStyles);
 
@@ -17,6 +18,7 @@ const SunsetFlow = () => {
         sunset: undefined,
         sunrise: undefined
     });
+    const [chosenOption, setChosenOption] = React.useState('sunset');
 
     const classes = useStyles();
 
@@ -65,13 +67,20 @@ const SunsetFlow = () => {
                         setActiveStep={setActiveStep}
                         setIsDisabled={setIsDisabled}
                         isDisabled={isDisabled}
+                        setChosenOption={setChosenOption}
                     />
                 </div>
             )
         } else if (activeStep === 2) {
+            let reminderTime;
+            if (chosenOption == 'sunrise') {
+                reminderTime = moment.utc(sunTimes.sunrise).subtract(1, 'hours').local().format('hh:mm A');
+            } else {
+                reminderTime = moment.utc(sunTimes.sunset).subtract(1, 'hours').local().format('hh:mm A');
+            };
             return (
                 <Typography variant="h6" gutterBottom>
-                    You've set a reminder! We will text you when it's time.
+                    {`You've set a reminder! We will text at ${reminderTime}, an hour before the ${chosenOption} in ${location.description}.`}
                 </Typography>
             );
         } else {
