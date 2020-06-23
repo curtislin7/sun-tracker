@@ -42,7 +42,7 @@ class Reminder {
         const phoneNumbers = await this.relevantPhoneNumbers();
         phoneNumbers.forEach((number) => {
             client.messages.create({
-                body:`The ${sunsetOrSunrise} is about to happen!`,
+                body:`The ${sunsetOrSunrise} will happen in about an hour!`,
                 from: `${adminPhoneNumber}`,
                 to: `+1${number}`
             }).then(message => {
