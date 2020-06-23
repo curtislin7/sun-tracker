@@ -3,6 +3,7 @@ const reminder = require('../models/model');
 const reminderWorker = function() {
     return {
         run: function() {
+            console.log('Attempting to send reminders...')
             reminder.sendReminders();
         }
     }
