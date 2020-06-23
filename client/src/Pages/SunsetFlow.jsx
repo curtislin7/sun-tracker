@@ -96,7 +96,7 @@ const SunsetFlow = () => {
         <div className={classes.root}>
             <div styles={{height: '20px'}}/>
             <Typography variant="h2" component="h2" gutterBottom>
-                Sunset Tracker
+                SunTracker
             </Typography>
            <div className={classes.stepContentContainer}>
                {currentStep()}
