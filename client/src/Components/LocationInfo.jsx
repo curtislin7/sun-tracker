@@ -41,7 +41,7 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunsetReminder = () => {
-        const sunsetReminder = moment.utc(sunset).subtract(5, 'minutes').format();
+        const sunsetReminder = moment.utc(sunset).subtract(1, 'hours').format();
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunsetReminder,
@@ -63,7 +63,7 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     };
 
     const setSunriseReminder = () => {
-        const sunriseReminder = moment.utc(sunrise).subtract(5, 'minutes').format();
+        const sunriseReminder = moment.utc(sunrise).subtract(1, 'hours').format();
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunriseReminder,
