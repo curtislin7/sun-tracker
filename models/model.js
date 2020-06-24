@@ -29,7 +29,6 @@ class Reminder {
         const result = await this.pool.query(query);
 
         const phoneNumbers = result.rows.map(row => {
-            console.log('hey!!!! here is the row', row)
             return {
                 phoneNumber: row.phoneNumber, 
                 reminderType: row.reminderType
@@ -45,11 +44,9 @@ class Reminder {
         const accountSid = process.env.TWILIO_ACCOUNT_SID;
         const authToken = process.env.TWILIO_AUTH_TOKEN;
         const adminPhoneNumber = process.env.TWILIO_PHONE_NUMBER;        
-        // const sunsetOrSunrise = moment.utc().format('a') == 'am' ? 'sunrise' : 'sunset';
 
         const client = require('twilio')(accountSid, authToken);
         const phoneNumbers = await this.relevantPhoneNumbers();
-        console.log('phonenumbers', phoneNumbers)
         phoneNumbers.forEach(({phoneNumber, reminderType}) => {
             client.messages.create({
                 body:`The ${reminderType} will happen in about an hour. -SunTracker`,
