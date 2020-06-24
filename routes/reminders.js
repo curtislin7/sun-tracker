@@ -3,10 +3,15 @@ const messages = require('../models/model');
 
 const router = new express.Router();
 
+// send over req body with all requirements
+
 router.post('/create', function(req, res, next) {
     const phoneNumber = req.body.phoneNumber;
     const reminderTime = req.body.reminderTime;
-    messages.create(phoneNumber, reminderTime)
+    const reminderType = req.body.reminderType;
+    const reqBody = req.body;
+
+    messages.create(phoneNumber, reminderTime, reminderType)
         .then(
             function(result) {
                 res.send(result);

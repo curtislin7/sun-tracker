@@ -12,9 +12,9 @@ class Reminder {
         return this.pool.query(query);
     };
 
-    async create(phoneNumber, reminderTime) {
+    async create(phoneNumber, reminderTime, reminderType) {
         console.log(`Setting a reminder to be sent at ${reminderTime}`);
-        let query = `INSERT INTO Reminders VALUES ('${phoneNumber}', '${reminderTime}', 'Good morning sunshine!', 'false');`;
+        let query = `INSERT INTO Reminders VALUES ('${phoneNumber}', '${reminderTime}', 'Good morning sunshine!', 'false', '${reminderType}');`;
         return this.pool.query(query);
     }
 
@@ -25,28 +25,38 @@ class Reminder {
                     "time" >= (now() at time zone 'utc') - INTERVAL '1 minutes' AND
                     status='false'
                     RETURNING *;`
+
         const result = await this.pool.query(query);
 
-        // TODO add more options for the notification here
-        const phoneNumbers = result.rows.map(row => row.phoneNumber);
-        return [...new Set(phoneNumbers)];
+        const phoneNumbers = result.rows.map(row => {
+            console.log('hey!!!! here is the row', row)
+            return {
+                phoneNumber: row.phoneNumber, 
+                reminderType: row.reminderType
+            }
+        });
+
+        return phoneNumbers;
+
     };
 
+    // TODO: validation remove duplicates
     async sendReminders() {  
         const accountSid = process.env.TWILIO_ACCOUNT_SID;
         const authToken = process.env.TWILIO_AUTH_TOKEN;
         const adminPhoneNumber = process.env.TWILIO_PHONE_NUMBER;        
-        const sunsetOrSunrise = moment.utc().format('a') == 'am' ? 'sunrise' : 'sunset';
+        // const sunsetOrSunrise = moment.utc().format('a') == 'am' ? 'sunrise' : 'sunset';
 
         const client = require('twilio')(accountSid, authToken);
         const phoneNumbers = await this.relevantPhoneNumbers();
-        phoneNumbers.forEach((number) => {
+        console.log('phonenumbers', phoneNumbers)
+        phoneNumbers.forEach(({phoneNumber, reminderType}) => {
             client.messages.create({
-                body:`The ${sunsetOrSunrise} will happen in about an hour. -SunTracker`,
+                body:`The ${reminderType} will happen in about an hour. -SunTracker`,
                 from: `${adminPhoneNumber}`,
-                to: `+1${number}`
+                to: `+1${phoneNumber}`
             }).then(message => {
-                console.log(`A message has been sent to ${number}!`);
+                console.log(`A message has been sent to ${phoneNumber}!`);
                 console.log(`Message.sid: ${message.sid}`);
             }).catch(message => {
                 console.log('there was an error', message)
