@@ -85,16 +85,24 @@ const SunsetFlow = () => {
             );
         } else {
             return (
-                <Typography variant="h6" gutterBottom>
-                    🎉
-                </Typography>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <div>
+                        🎉
+                    </div>
+                    <Typography variant="h6" gutterBottom>
+                        Sun Tracker uses free APIs provided by https://sunrise-sunset.org/ and Google Maps.
+                    </Typography>
+                    <Typography variant="h6" gutterBottom>
+                        Sun Tracker also uses Twilio's Programmable SMS functionality to send you texts!
+                    </Typography>
+                </div>
             )
         };
     }
 
     return (
         <div className={classes.root}>
-            <div styles={{height: '20px'}}/>
+            <div style={{height: '40px'}}/>
             <Typography variant="h2" component="h2" gutterBottom>
                 SunTracker
             </Typography>
@@ -102,7 +110,7 @@ const SunsetFlow = () => {
                {currentStep()}
            </div>
            <Stepper activeStep={activeStep} setActiveStep={setActiveStep} isDisabled={isDisabled}/>
-           <div styles={{height: '20px'}}/>
+           <div style={{height: '40px'}}/>
         </div>        
     );
 }
