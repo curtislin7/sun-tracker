@@ -12,9 +12,8 @@ class Reminder {
         return this.pool.query(query);
     };
 
-    async create(phoneNumber, reminderTime, reminderType) {
-        console.log(`Setting a reminder to be sent at ${reminderTime}`);
-        let query = `INSERT INTO Reminders VALUES ('${phoneNumber}', '${reminderTime}', 'Good morning sunshine!', 'false', '${reminderType}');`;
+    async create(phoneNumber, reminderTime, reminderType, sunInfo) {
+        let query = `INSERT INTO Reminders VALUES ('${phoneNumber}', '${reminderTime}', 'Good morning sunshine!', 'false', '${reminderType}', '${JSON.stringify(sunInfo)}');`;
         return this.pool.query(query);
     }
 
@@ -30,8 +29,10 @@ class Reminder {
 
         const phoneNumbers = result.rows.map(row => {
             return {
-                phoneNumber: row.phoneNumber, 
-                reminderType: row.reminderType
+                phoneNumber: row.phoneNumber,
+                reminderType: row.reminderType,
+                localTime: row.sunInfo.localTime,
+                location: row.sunInfo.location,
             }
         });
 
@@ -39,7 +40,6 @@ class Reminder {
 
     };
 
-    // TODO: validation remove duplicates
     async sendReminders() {  
         const accountSid = process.env.TWILIO_ACCOUNT_SID;
         const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -47,9 +47,9 @@ class Reminder {
 
         const client = require('twilio')(accountSid, authToken);
         const phoneNumbers = await this.relevantPhoneNumbers();
-        phoneNumbers.forEach(({phoneNumber, reminderType}) => {
+        phoneNumbers.forEach(({phoneNumber, reminderType, localTime, location}) => {
             client.messages.create({
-                body:`The ${reminderType} will happen in about an hour. -SunTracker`,
+                body:`The ${reminderType} in ${location} will happen at ${localTime}. -SunTracker`,
                 from: `${adminPhoneNumber}`,
                 to: `+1${phoneNumber}`
             }).then(message => {

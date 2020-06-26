@@ -9,9 +9,9 @@ router.post('/create', function(req, res, next) {
     const phoneNumber = req.body.phoneNumber;
     const reminderTime = req.body.reminderTime;
     const reminderType = req.body.reminderType;
-    const reqBody = req.body;
+    const sunInfo = req.body.sunInfo;
 
-    messages.create(phoneNumber, reminderTime, reminderType)
+    messages.create(phoneNumber, reminderTime, reminderType, sunInfo)
         .then(
             function(result) {
                 res.send(result);

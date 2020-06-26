@@ -43,10 +43,17 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     const setSunsetReminder = () => {
         setChosenOption('sunset');
         const sunsetReminder = moment.utc(sunset).subtract(1, 'hours').format();
+        const actualTime = moment.utc(sunset);
+        const localTime = moment.utc(sunset).local().format('hh:mm:ss A');
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunsetReminder,
-            reminderType: 'sunset'
+            reminderType: 'sunset',
+            sunInfo: {
+                actualTime: actualTime,
+                localTime: localTime,
+                location: location.description
+            },
         };
 
         fetch('/reminders/create', {
@@ -67,10 +74,18 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     const setSunriseReminder = () => {
         setChosenOption('sunrise');
         const sunriseReminder = moment.utc(sunrise).subtract(1, 'hours').format();
+        const actualTime = moment.utc(sunrise);
+        const localTime = moment.utc(sunset).local().format('h:mm:ss A');
+
         const data = {
             phoneNumber: phoneNumber,
             reminderTime: sunriseReminder,
             reminderType: 'sunrise',
+            sunInfo: {
+                actualTime: actualTime,
+                localTime: localTime,
+                location: location.description
+            },
         };
 
         fetch('/reminders/create', {
@@ -101,10 +116,10 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
                 {`Boulder is located at ${lat}, ${long}`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-            {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('hh:mm:ss A')}.`}
+            {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}.`}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {`On ${moment.utc(sunset).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('hh:mm:ss A')}.`}
+                {`On ${moment.utc(sunset).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('h:mm:ss A')}.`}
             </Typography>
             <div className={classes.inputRow}>
                 <TextField 
