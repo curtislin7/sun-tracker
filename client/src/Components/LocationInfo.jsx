@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 
@@ -10,10 +10,14 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'space-between'
     },
+    text: {
+        maxWidth: '50vh',
+        // TODO: Refactor styling
+        marginBottom: '20px'
+    },
     inputRow: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
     input: {
         width: '200px'
@@ -54,23 +58,34 @@ const LocationInfo = (props) => {
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
+    
+    // const StyledPhoneInput = withStyles({
+    //     root: {
+    //         color: '#000000'
+    //     }
+    // })(TextField)
 
     return(
         <div className={classes.root}>
-            <Typography variant="h6" gutterBottom>
+            {/* <Typography variant="h6" gutterBottom>
                 {
                 `You chose ${location.description}`
                 }
-            </Typography>
-            <Typography variant="h6" gutterBottom>
+            </Typography> */}
+            {/* <Typography variant="h6" gutterBottom>
                 {`Boulder is located at ${lat}, ${long}`}
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-            {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}.`}
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-                {`On ${moment.utc(sunset).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('h:mm:ss A')}.`}
-            </Typography>
+            </Typography> */}
+            <div className={classes.text}>
+                <Typography variant="h6" gutterBottom >
+                    {
+                    `On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} 
+                    is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}, and set at ${moment.utc(sunset).local().format('h:mm:ss A')}.`}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    {'Enter your phone number and press an option below for a text reminder!'}
+                </Typography>
+            </div>
+           
             <div className={classes.inputRow}>
                 <TextField
                     // error

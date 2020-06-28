@@ -115,7 +115,6 @@ const SunsetFlow = () => {
             padding: '10px',
             display: 'flex',
             justifyContent: 'center'
-            // margin: 'auto'
         },
     })(Paper);
 
