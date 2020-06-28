@@ -5,7 +5,7 @@ const SunsetFlowStyles = (theme) => ({
         justifyContent: 'space-around',
         alignItems: 'center',
         flexDirection: 'column',
-        backgroundColor: '#fd8953',
+        // backgroundColor: '#ffffff',
     },
     stepContentContainer: {
         height: '30vh',

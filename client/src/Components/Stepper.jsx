@@ -9,7 +9,7 @@ import { setSunriseReminder, setSunsetReminder } from './Actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '70vh',
+    minWidth: '400px',
   },
   button: {
     marginRight: theme.spacing(1),
@@ -37,7 +37,7 @@ const getSteps = () => {
 const getStepContent = (step) => {
     switch (step) {
         case 0:
-            return 'Enter your current location.';
+            return '';
         case 1:
             return '';
         case 2:

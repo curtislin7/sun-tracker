@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const LocationInfo = (props) => {
-    
+
     const {
         location,
         latLong:{
@@ -72,11 +72,13 @@ const LocationInfo = (props) => {
                 {`On ${moment.utc(sunset).local().format('MMM Do, YYYY')}, the sun in ${location.description} is going to set at ${moment.utc(sunset).local().format('h:mm:ss A')}.`}
             </Typography>
             <div className={classes.inputRow}>
-                <TextField 
-                    className={classes.input}
-                    label="PhoneNumber" 
+                <TextField
+                    // error
+                    variant="filled"
+                    // className={classes.input}
+                    label='PhoneNumber'
                     value={phoneNumber} 
-                    onChange={handleChange} 
+                    onChange={handleChange}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
                             alert("If you've typed in your number, click one of the buttons.")
@@ -84,12 +86,6 @@ const LocationInfo = (props) => {
                         };
                     }}
                 />
-                {/* <Button variant="contained" onClick={() => setSunriseReminder()} disabled={isDisabled}>
-                    Set sunrise reminder!
-                </Button>
-                <Button variant="contained" onClick={() => setSunsetReminder()} disabled={isDisabled}>
-                    Set sunset reminder!
-                </Button> */}
             </div>
         </div>
     );

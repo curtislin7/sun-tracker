@@ -2,10 +2,12 @@ import React from 'react';
 import Locater from '../Components/Locater.jsx'
 import LocationInfo from '../Components/LocationInfo.jsx'
 import Stepper from '../Components/Stepper.jsx'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import SunsetFlowStyles from './SunsetFlowStyles';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
+import Paper from '@material-ui/core/Paper';
+
 
 const useStyles = makeStyles(SunsetFlowStyles);
 
@@ -106,12 +108,25 @@ const SunsetFlow = () => {
         };
     }
 
+    const StyledPaper = withStyles({
+        root: {
+            background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+            width:'50vh',
+            padding: '10px',
+            display: 'flex',
+            justifyContent: 'center'
+            // margin: 'auto'
+        },
+    })(Paper);
+
     return (
         <div className={classes.root}>
             <div style={{height: '40px'}}/>
-                <Typography variant="h2" component="h2" gutterBottom>
+            <StyledPaper>
+                <Typography variant="h2" component="h2">
                     SunTracker
                 </Typography>
+            </StyledPaper>
             <div className={classes.stepContentContainer}>
                 {currentStep()}
             </div>
