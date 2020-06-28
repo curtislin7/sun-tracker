@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center'
     },
     input: {
-        width: '15vw'
+        width: '33vw'
     },
     button: {
       marginRight: theme.spacing(1),

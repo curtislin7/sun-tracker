@@ -9,7 +9,12 @@ import { setSunriseReminder, setSunsetReminder } from './Actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '33vw',
+    width: '50vw',
+  },
+  buttons: {
+    display: 'flex',
+    width: '50vw',
+    justifyContent: 'space-between',
   },
   button: {
     marginRight: theme.spacing(1),
@@ -77,6 +82,15 @@ const SunsetStepper = (props) => {
                 >
                     Set sunset reminder!
                 </Button>
+                <Button
+                    disabled={activeStep === 1 || activeStep === 2}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                >
+                    {'Next'}
+                </Button>
             </>
         )                  
     };
@@ -95,54 +109,56 @@ const SunsetStepper = (props) => {
 
     return (
         <div className={classes.root}>
-        <StyledStepper activeStep={activeStep}>
-            {steps.map((label, index) => {
-            return (
-                <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-                </Step>
-            );
-            })}
-        </StyledStepper>
-        <div>
-            {activeStep === steps.length ? (
+            <StyledStepper activeStep={activeStep}>
+                {
+                    steps.map((label) => {
+                        return (
+                            <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                            </Step>
+                        );
+                    })
+                }
+            </StyledStepper>
             <div>
-                <Typography className={classes.instructions} classes={{ root: ''}}>
-                All steps completed - you&apos;re finished
-                </Typography>
-                <Button onClick={handleReset} className={classes.button}>
-                Reset
-                </Button>
-            </div>
-            ) : (
-            <div>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div className={classes.buttons}>
-                    <Button
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        className={classes.button}
-                    >
-                        Back
+                {activeStep === steps.length ? (
+                <div>
+                    <Typography className={classes.instructions} classes={{ root: ''}}>
+                    All steps completed - you&apos;re finished
+                    </Typography>
+                    <Button onClick={handleReset} className={classes.button}>
+                    Reset
                     </Button>
-                    {
-                        activeStep === 1 ?
-                        getSunButtons() :
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                            className={classes.button}
-                            disabled={isDisabled}
-                        >
-                            {'Next'}
-                        </Button>
-                    }
-                    
                 </div>
+                ) : (
+                <div>
+                    <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                    <div className={classes.buttons}>
+                        <Button
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            className={classes.button}
+                        >
+                            Back
+                        </Button>
+                        {
+                            activeStep === 1 ? 
+                            getSunButtons() :
+                            <Button
+                                disabled={isDisabled}
+                                variant="contained"
+                                color="primary"
+                                onClick={handleNext}
+                                className={classes.button}
+                            >
+                                {'Next'}
+                            </Button>
+                        }
+                        
+                    </div>
+                </div>
+                )}
             </div>
-            )}
-        </div>
         </div>
     );
 }
