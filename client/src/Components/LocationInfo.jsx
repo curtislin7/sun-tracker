@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 
@@ -25,8 +24,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}, setActiveStep, isDisabled, setIsDisabled, setChosenOption}) => {
-    const [phoneNumber, setPhoneNumber] = React.useState('');
+const LocationInfo = (props) => {
+    
+    const {
+        location,
+        latLong:{
+            lat,
+            long
+        }, 
+        sunTimes:{
+            sunset,
+            sunrise
+        }, 
+        isDisabled,
+        setIsDisabled,
+        phoneNumber,
+        setPhoneNumber
+    } = props
+
     const classes = useStyles();
     React.useEffect(() => {
         if(!phoneNumber) {
@@ -39,71 +54,6 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
-
-    const setSunsetReminder = () => {
-        setChosenOption('sunset');
-        const sunsetReminder = moment.utc(sunset).subtract(1, 'hours').format();
-        const actualTime = moment.utc(sunset);
-        const localTime = moment.utc(sunset).local().format('hh:mm:ss A');
-        const data = {
-            phoneNumber: phoneNumber,
-            reminderTime: sunsetReminder,
-            reminderType: 'sunset',
-            sunInfo: {
-                actualTime: actualTime,
-                localTime: localTime,
-                location: location.description
-            },
-        };
-
-        fetch('/reminders/create', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            setActiveStep(2);
-        }); 
-
-    };
-
-    const setSunriseReminder = () => {
-        setChosenOption('sunrise');
-        const sunriseReminder = moment.utc(sunrise).subtract(1, 'hours').format();
-        const actualTime = moment.utc(sunrise);
-        const localTime = moment.utc(sunset).local().format('h:mm:ss A');
-
-        const data = {
-            phoneNumber: phoneNumber,
-            reminderTime: sunriseReminder,
-            reminderType: 'sunrise',
-            sunInfo: {
-                actualTime: actualTime,
-                localTime: localTime,
-                location: location.description
-            },
-        };
-
-        fetch('/reminders/create', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            setActiveStep(2);
-        }); 
-
-    }
-
-    // TODO, make sure that the timezone is applied
 
     return(
         <div className={classes.root}>
@@ -134,12 +84,12 @@ const LocationInfo = ({location, latLong:{lat, long}, sunTimes:{sunset, sunrise}
                         };
                     }}
                 />
-                <Button variant="contained" onClick={() => setSunriseReminder()} disabled={isDisabled}>
+                {/* <Button variant="contained" onClick={() => setSunriseReminder()} disabled={isDisabled}>
                     Set sunrise reminder!
                 </Button>
                 <Button variant="contained" onClick={() => setSunsetReminder()} disabled={isDisabled}>
                     Set sunset reminder!
-                </Button>
+                </Button> */}
             </div>
         </div>
     );

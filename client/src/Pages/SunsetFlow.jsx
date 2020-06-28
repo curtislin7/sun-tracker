@@ -1,5 +1,5 @@
 import React from 'react';
-import LocationDropdown from '../Components/LocationDropdown.jsx';
+import Locater from '../Components/Locater.jsx'
 import LocationInfo from '../Components/LocationInfo.jsx'
 import Stepper from '../Components/Stepper.jsx'
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,6 +18,7 @@ const SunsetFlow = () => {
         sunset: undefined,
         sunrise: undefined
     });
+    const [phoneNumber, setPhoneNumber] = React.useState('');
     const [chosenOption, setChosenOption] = React.useState('sunset');
 
     const classes = useStyles();
@@ -30,6 +31,9 @@ const SunsetFlow = () => {
             setIsDisabled(false);
         }
     }, [latLong]);
+
+
+    // TODO: place these inside actions
 
     const fetchSunInfo = () => {
         const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
@@ -49,7 +53,7 @@ const SunsetFlow = () => {
         if (activeStep === 0) {
             return (
                 <div className={classes.stepContent}>
-                    <LocationDropdown 
+                    <Locater 
                         latLong={latLong} 
                         setLatLong={setLatLong}
                         value={location}
@@ -68,6 +72,8 @@ const SunsetFlow = () => {
                         setIsDisabled={setIsDisabled}
                         isDisabled={isDisabled}
                         setChosenOption={setChosenOption}
+                        phoneNumber={phoneNumber}
+                        setPhoneNumber={setPhoneNumber}
                     />
                 </div>
             )
@@ -103,14 +109,22 @@ const SunsetFlow = () => {
     return (
         <div className={classes.root}>
             <div style={{height: '40px'}}/>
-            <Typography variant="h2" component="h2" gutterBottom>
-                SunTracker
-            </Typography>
-           <div className={classes.stepContentContainer}>
-               {currentStep()}
-           </div>
-           <Stepper activeStep={activeStep} setActiveStep={setActiveStep} isDisabled={isDisabled}/>
-           <div style={{height: '40px'}}/>
+                <Typography variant="h2" component="h2" gutterBottom>
+                    SunTracker
+                </Typography>
+            <div className={classes.stepContentContainer}>
+                {currentStep()}
+            </div>
+            <Stepper
+                location={location}
+                activeStep={activeStep} 
+                setActiveStep={setActiveStep} 
+                isDisabled={isDisabled}
+                sunTimes={sunTimes}
+                setChosenOption={setChosenOption}
+                phoneNumber={phoneNumber}
+            />
+            <div style={{height: '40px'}}/>
         </div>        
     );
 }

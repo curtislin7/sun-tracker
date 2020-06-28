@@ -10,7 +10,7 @@ import throttle from 'lodash/throttle';
 
 const autocompleteService = { current: null };
 const geocoder = { current: null };
-const places = { current: null };
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.text.secondary,
