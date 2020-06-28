@@ -8,19 +8,19 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-evenly',
     },
     text: {
-        maxWidth: '50vh',
-        // TODO: Refactor styling
-        marginBottom: '20px'
+        width: '33vw',
+        // TODO: Read and understand viewport
+        marginBottom: '5vh'
     },
     inputRow: {
         display: 'flex',
         justifyContent: 'center'
     },
     input: {
-        width: '200px'
+        width: '15vw'
     },
     button: {
       marginRight: theme.spacing(1),
@@ -32,15 +32,10 @@ const LocationInfo = (props) => {
 
     const {
         location,
-        latLong:{
-            lat,
-            long
-        }, 
         sunTimes:{
             sunset,
             sunrise
         }, 
-        isDisabled,
         setIsDisabled,
         phoneNumber,
         setPhoneNumber
@@ -58,31 +53,14 @@ const LocationInfo = (props) => {
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
-    
-    // const StyledPhoneInput = withStyles({
-    //     root: {
-    //         color: '#000000'
-    //     }
-    // })(TextField)
-
     return(
         <div className={classes.root}>
-            {/* <Typography variant="h6" gutterBottom>
-                {
-                `You chose ${location.description}`
-                }
-            </Typography> */}
-            {/* <Typography variant="h6" gutterBottom>
-                {`Boulder is located at ${lat}, ${long}`}
-            </Typography> */}
             <div className={classes.text}>
                 <Typography variant="h6" gutterBottom >
                     {
                     `On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} 
-                    is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}, and set at ${moment.utc(sunset).local().format('h:mm:ss A')}.`}
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                    {'Enter your phone number and press an option below for a text reminder!'}
+                    is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}, and set at ${moment.utc(sunset).local().format('h:mm:ss A')}.
+                    Enter your phone number and press an option below for a text reminder!`}
                 </Typography>
             </div>
            
@@ -90,7 +68,7 @@ const LocationInfo = (props) => {
                 <TextField
                     // error
                     variant="filled"
-                    // className={classes.input}
+                    className={classes.input}
                     label='PhoneNumber'
                     value={phoneNumber} 
                     onChange={handleChange}

@@ -56,7 +56,7 @@ const SunsetFlow = () => {
             return (
                 <div className={classes.stepContent}>
                     <Locater 
-                        latLong={latLong} 
+                        latLong={latLong}
                         setLatLong={setLatLong}
                         value={location}
                         setValue={setLocation}
@@ -68,7 +68,6 @@ const SunsetFlow = () => {
                 <div className={classes.stepContent}>
                     <LocationInfo 
                         location={location}
-                        latLong={latLong}
                         sunTimes={sunTimes}
                         setActiveStep={setActiveStep}
                         setIsDisabled={setIsDisabled}
@@ -111,7 +110,7 @@ const SunsetFlow = () => {
     const StyledPaper = withStyles({
         root: {
             background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-            width:'50vh',
+            width:'33vw',
             padding: '10px',
             display: 'flex',
             justifyContent: 'center'

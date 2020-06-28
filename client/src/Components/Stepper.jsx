@@ -9,7 +9,7 @@ import { setSunriseReminder, setSunsetReminder } from './Actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: '400px',
+    width: '33vw',
   },
   button: {
     marginRight: theme.spacing(1),
