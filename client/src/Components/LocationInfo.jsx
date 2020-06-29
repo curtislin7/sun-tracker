@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-evenly',
     },
     text: {
-        width: '33vw',
+        width: '40vw',
         // TODO: Read and understand viewport
         marginBottom: '5vh'
     },
@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const LocationInfo = (props) => {
 
     const {
@@ -38,27 +37,31 @@ const LocationInfo = (props) => {
         }, 
         setIsDisabled,
         phoneNumber,
-        setPhoneNumber
-    } = props
+        setPhoneNumber,
+        hasError,
+        setHasError,
+    } = props;
 
-    const classes = useStyles();
     React.useEffect(() => {
         if(!phoneNumber) {
             setIsDisabled(true);
         } else {
+            setHasError(false);
             setIsDisabled(false);
         }
     }, [phoneNumber])
 
+    const classes = useStyles();
+
     const handleChange = (event) => {
         setPhoneNumber(event.target.value);
     };
+
     return(
         <div className={classes.root}>
             <div className={classes.text}>
                 <Typography variant="h6" gutterBottom >
-                    {
-                    `On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} 
+                    {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} 
                     is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}, and set at ${moment.utc(sunset).local().format('h:mm:ss A')}.
                     Enter your phone number and press an option below for a text reminder!`}
                 </Typography>
@@ -66,7 +69,7 @@ const LocationInfo = (props) => {
            
             <div className={classes.inputRow}>
                 <TextField
-                    // error
+                    error={hasError}
                     variant="filled"
                     className={classes.input}
                     label='PhoneNumber'

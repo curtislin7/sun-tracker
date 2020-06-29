@@ -22,7 +22,7 @@ const SunsetFlow = () => {
     });
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const [chosenOption, setChosenOption] = React.useState('sunset');
-
+    const [hasError, setHasError] = React.useState(false);
     const classes = useStyles();
 
     React.useEffect(() => {
@@ -33,9 +33,6 @@ const SunsetFlow = () => {
             setIsDisabled(false);
         }
     }, [latLong]);
-
-
-    // TODO: place these inside actions
 
     const fetchSunInfo = () => {
         const queryString = `https://api.sunrise-sunset.org/json?lat=${latLong.lat}&lng=${latLong.long}&date=today&formatted=0`
@@ -75,6 +72,8 @@ const SunsetFlow = () => {
                         setChosenOption={setChosenOption}
                         phoneNumber={phoneNumber}
                         setPhoneNumber={setPhoneNumber}
+                        hasError={hasError}
+                        setHasError={setHasError}
                     />
                 </div>
             )
@@ -86,22 +85,23 @@ const SunsetFlow = () => {
                 reminderTime = moment.utc(sunTimes.sunset).subtract(1, 'hours').local().format('hh:mm A');
             };
             return (
-                <Typography variant="h6" gutterBottom>
-                    {`You've set a reminder! We will text at ${reminderTime}, an hour before the ${chosenOption} in ${location.description}.`}
-                </Typography>
+                <div style={{width: '40vw'}}>
+                    <Typography variant="h6" gutterBottom>
+                        {`You've set a ${chosenOption} reminder! We will text at ${reminderTime}, an hour before the ${chosenOption} in ${location.description}.`}
+                    </Typography>
+                </div>
             );
         } else {
             return (
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <div style={{width: '40vw'}}>
                     <div>
-                        🎉
+                        <Typography variant="h6" gutterBottom>
+                            Sun Tracker uses free APIs provided by https://sunrise-sunset.org/ and Google Maps, as well as Twilio's Programmable SMS functionality to send you texts! 🎉
+                        </Typography>
                     </div>
-                    <Typography variant="h6" gutterBottom>
-                        Sun Tracker uses free APIs provided by https://sunrise-sunset.org/ and Google Maps.
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
+                    {/* <Typography variant="h6" gutterBottom>
                         Sun Tracker also uses Twilio's Programmable SMS functionality to send you texts!
-                    </Typography>
+                    </Typography> */}
                 </div>
             )
         };
@@ -136,6 +136,7 @@ const SunsetFlow = () => {
                 sunTimes={sunTimes}
                 setChosenOption={setChosenOption}
                 phoneNumber={phoneNumber}
+                setHasError={setHasError}
             />
             <div style={{height: '40px'}}/>
         </div>        

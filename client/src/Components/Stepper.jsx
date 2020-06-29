@@ -52,7 +52,6 @@ const getStepContent = (step) => {
     };
 };
 
-
 const SunsetStepper = (props) => {
     const {
         activeStep,
@@ -83,13 +82,13 @@ const SunsetStepper = (props) => {
                     Set sunset reminder!
                 </Button>
                 <Button
-                    disabled={activeStep === 1 || activeStep === 2}
+                    disabled
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}
                 >
-                    {'Next'}
+                    Next
                 </Button>
             </>
         )                  
@@ -123,11 +122,8 @@ const SunsetStepper = (props) => {
             <div>
                 {activeStep === steps.length ? (
                 <div>
-                    <Typography className={classes.instructions} classes={{ root: ''}}>
-                    All steps completed - you&apos;re finished
-                    </Typography>
                     <Button onClick={handleReset} className={classes.button}>
-                    Reset
+                        Reset
                     </Button>
                 </div>
                 ) : (
@@ -151,7 +147,11 @@ const SunsetStepper = (props) => {
                                 onClick={handleNext}
                                 className={classes.button}
                             >
-                                {'Next'}
+                                {
+                                    activeStep === 0 ?
+                                    'Next' : 
+                                    'Info'
+                                }
                             </Button>
                         }
                         
