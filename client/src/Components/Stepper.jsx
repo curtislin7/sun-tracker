@@ -57,6 +57,8 @@ const SunsetStepper = (props) => {
         activeStep,
         setActiveStep,
         isDisabled,
+        resetFields,
+        setPhoneNumber,
     } = props;
 
     const classes = useStyles();
@@ -99,10 +101,14 @@ const SunsetStepper = (props) => {
     };
 
     const handleBack = () => {
+        if (activeStep === 1) {
+            setPhoneNumber('');
+        }
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
     const handleReset = () => {
+        resetFields();
         setActiveStep(0);
     };
 

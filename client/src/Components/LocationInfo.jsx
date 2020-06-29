@@ -43,12 +43,12 @@ const LocationInfo = (props) => {
     } = props;
 
     React.useEffect(() => {
-        if(!phoneNumber) {
+        if (!phoneNumber) {
             setIsDisabled(true);
         } else {
-            setHasError(false);
             setIsDisabled(false);
         }
+        setHasError(false);
     }, [phoneNumber])
 
     const classes = useStyles();
@@ -63,7 +63,7 @@ const LocationInfo = (props) => {
                 <Typography variant="h6" gutterBottom >
                     {`On ${moment.utc(sunrise).local().format('MMM Do, YYYY')}, the sun in ${location.description} 
                     is going to rise at ${moment.utc(sunrise).local().format('h:mm:ss A')}, and set at ${moment.utc(sunset).local().format('h:mm:ss A')}.
-                    Enter your phone number and press an option below for a text reminder!`}
+                    Enter your phone number and press an option below to set a text reminder!`}
                 </Typography>
             </div>
            

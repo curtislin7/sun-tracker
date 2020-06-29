@@ -25,6 +25,19 @@ const SunsetFlow = () => {
     const [hasError, setHasError] = React.useState(false);
     const classes = useStyles();
 
+    const resetFields = () => {
+        setActiveStep(0);
+        setLatLong(undefined);
+        setLocation(null);
+        setIsDisabled(true);
+        setSunTimes({
+            sunset: undefined,
+            sunrise: undefined,
+        })
+        setPhoneNumber('');
+        setHasError(false);
+    }
+
     React.useEffect(() => {
         if(!location) {
             setIsDisabled(true);
@@ -136,7 +149,9 @@ const SunsetFlow = () => {
                 sunTimes={sunTimes}
                 setChosenOption={setChosenOption}
                 phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
                 setHasError={setHasError}
+                resetFields={resetFields}
             />
             <div style={{height: '40px'}}/>
         </div>        
