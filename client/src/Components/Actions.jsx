@@ -41,7 +41,7 @@ export const setSunsetReminder = (props) => {
             sunInfo: {
                 actualTime: actualTime,
                 localTime: localTime,
-                location: location,
+                location: location.description,
             },
         };
 
