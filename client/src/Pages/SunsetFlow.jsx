@@ -160,7 +160,7 @@ const SunsetFlow = () => {
                     resetFields={resetFields}
                 />
             <div style={{height: '40px'}}/>
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+            <div className={classes.links}>
                 <IconButton edge="end" color="inherit" aria-label="github" href="https://github.com/curtislin7">
                     <GitHubIcon/>
                 </IconButton>

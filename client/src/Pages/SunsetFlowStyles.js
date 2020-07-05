@@ -16,6 +16,15 @@ const SunsetFlowStyles = (theme) => ({
     stepContent: {
         paddingBottom: '20px'
     },
+    links: {
+        '& > *': {
+          margin: theme.spacing(0.4),
+        },
+        paddingTop:'0',
+        display: 'flex', 
+        flexDirection: 'row', 
+        justifyContent: 'center',
+    },
 
 });
 
