@@ -8,10 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-// import IconButton from '@material-ui/core/IconButton';
-// import GitHubIcon from '@material-ui/icons/GitHub';
-// import LinkedInIcon from '@material-ui/icons/LinkedIn';
-// import EmailIcon from '@material-ui/icons/Email';
+import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import EmailIcon from '@material-ui/icons/Email';
 
 const useStyles = makeStyles(SunsetFlowStyles);
 
@@ -121,17 +121,6 @@ const SunsetFlow = () => {
                                 Created by Curtis Lin 🎉.
                             </Typography>
                         </div>
-                        {/* <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                            <IconButton edge="end" color="inherit" aria-label="github" href="https://github.com/curtislin7">
-                                <GitHubIcon/>
-                            </IconButton>
-                            <IconButton edge="end" color="inherit" aria-label="linkedin" href="https://www.linkedin.com/in/curtislin/">
-                                <LinkedInIcon/>
-                            </IconButton>
-                            <IconButton edge="end" color="inherit" aria-label="github" href="mailto:curtislin7@gmail.com">
-                                <EmailIcon/>
-                            </IconButton>
-                        </div> */}
                     </div>
             );
         };
@@ -150,27 +139,38 @@ const SunsetFlow = () => {
     return (
         <div className={classes.root}>
             <div style={{height: '40px'}}/>
-            <StyledPaper>
-                <Typography variant="h2" component="h2">
-                    SunTracker
-                </Typography>
-            </StyledPaper>
-            <div className={classes.stepContentContainer}>
-                {currentStep()}
-            </div>
-            <Stepper
-                location={location}
-                activeStep={activeStep} 
-                setActiveStep={setActiveStep} 
-                isDisabled={isDisabled}
-                sunTimes={sunTimes}
-                setChosenOption={setChosenOption}
-                phoneNumber={phoneNumber}
-                setPhoneNumber={setPhoneNumber}
-                setHasError={setHasError}
-                resetFields={resetFields}
-            />
+                <StyledPaper>
+                    <Typography variant="h2" component="h2">
+                        SunTracker
+                    </Typography>
+                </StyledPaper>
+                <div className={classes.stepContentContainer}>
+                    {currentStep()}
+                </div>
+                <Stepper
+                    location={location}
+                    activeStep={activeStep} 
+                    setActiveStep={setActiveStep} 
+                    isDisabled={isDisabled}
+                    sunTimes={sunTimes}
+                    setChosenOption={setChosenOption}
+                    phoneNumber={phoneNumber}
+                    setPhoneNumber={setPhoneNumber}
+                    setHasError={setHasError}
+                    resetFields={resetFields}
+                />
             <div style={{height: '40px'}}/>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                <IconButton edge="end" color="inherit" aria-label="github" href="https://github.com/curtislin7">
+                    <GitHubIcon/>
+                </IconButton>
+                <IconButton edge="end" color="inherit" aria-label="linkedin" href="https://www.linkedin.com/in/curtislin/">
+                    <LinkedInIcon/>
+                </IconButton>
+                <IconButton edge="end" color="inherit" aria-label="github" href="mailto:curtislin7@gmail.com">
+                    <EmailIcon/>
+                </IconButton>
+            </div>
         </div>        
     );
 }
